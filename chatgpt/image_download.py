@@ -2,7 +2,10 @@ import requests
 import os
 
 # Set up the Pexels API key
-API_KEY = "oOIT1S8sKtQqSf9pJxC1u5xhp1YlbguB3HqQpunjANvY0WcFq02irYH2"
+with open("pexels_secret.txt", "r") as fp:
+    API_KEY = fp.readlines()[0].strip()
+
+assert API_KEY, 'API_KEY is not available'
 
 
 def image_get_pexels(search_query_, no_images, output_dir):
