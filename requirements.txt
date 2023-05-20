@@ -1,0 +1,16 @@
+sounddevice==0.4.6
+wave
+pyttsx3
+scipy
+ffmpeg
+moviepy
+opencv-python
+easydict
+PyYAML
+playsound
+gtts
+translate
+pandas
+googletrans
+moviepy
+pydub

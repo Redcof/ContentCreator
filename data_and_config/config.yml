@@ -1,0 +1,20 @@
+TOPIC: 'motivation'
+LENGTH_IN_MINUTE: 60
+TYPE: 'video'
+RESOLUTION: '720p'
+LANGUAGE: 'en'
+
+VIDEO:
+  IMAGE_QUERY: 'hill and sea'
+  IMAGE_COUNT: 10
+  TITLE: "A monday motivation"
+  DESCRIPTION: "A monday motivation"
+  HASH_TAGS: "motivation,youtubeshots,iphone"
+
+AUDIO:
+  SPEED_X: 1.0
+  VOICE: 'female'
+
+STOCK:
+  AUDIO:
+  VIDEO:

@@ -1,0 +1,7 @@
+name: acc
+channels:
+  - defaults
+  - conda-forge
+  - pip
+dependencies:
+  - librosa
