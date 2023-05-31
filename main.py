@@ -6,12 +6,28 @@
 # from chatgpt.image_download import image_get_pexels
 # from chatgpt.images2video import images2video
 # from chatgpt.merge_av import merge_audio_video
-from config import cfg_from_file, cfg
-from content_creator import ContentCreator
+from data_and_config.config import cfg_from_file, cfg
+from data_and_config.content_creator import ContentCreator
 
 
 # 512gb SSD, M2, 16RAM, Air
 # 149900 - 97910 - Store Discount 10%, Cashback 5000 Cashback, debit card 6month emi.
+
+def content_from_quote():
+    cc = ContentCreator("./output", cfg.TOPIC)
+    cc.download_images()
+    cc.generate_audio_from_quote()
+    cc.generate_video_form_images()
+    cc.merge_audio_video()
+    cc.upload_youtube()
+
+
+def content_form_stock():
+    cc = ContentCreator("./output", cfg.TOPIC)
+    cc.setInputAudio(cfg.STOCK.AUDIO, check=False)
+    cc.setInputVideo(cfg.STOCK.VIDEO, check=False)
+    cc.repeat_and_merge(cfg.STOCK.REPEAT)
+
 
 def main():
     cfg_from_file('data_and_config/config.yml')
@@ -23,12 +39,7 @@ def main():
     # image_get_pexels()
     # images2video()
     # merge_audio_video()
-    cc = ContentCreator(cfg.TOPIC, ".")
-    cc.download_images()
-    cc.generate_audio_from_quote()
-    cc.generate_video_form_images()
-    cc.merge_audio_video()
-    cc.upload_youtube()
+    content_form_stock()
 
 
 # Press the green button in the gutter to run the script.

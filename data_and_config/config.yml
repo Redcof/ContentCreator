@@ -16,5 +16,6 @@ AUDIO:
   VOICE: 'female'
 
 STOCK:
-  AUDIO:
-  VIDEO:
+  AUDIO: './Stock Content/Audio/Gym-Rock/temp_repeated_passion-127011.mp3, ./Stock Content/Audio/Gym-Rock/action-workout-trap-fashion-99524.mp3'
+  VIDEO: './Stock Content/Video/gym/135162 (1440p).mp4, ./Stock Content/Video/gym/135156 (1440p).mp4, ./Stock Content/Video/gym/135156 (1440p).mp4'
+  REPEAT: 2
