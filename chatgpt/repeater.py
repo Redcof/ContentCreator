@@ -10,7 +10,12 @@ from pydub import AudioSegment
 
 def prepare_paths(path):
     """This is split multiple paths and automatically filter out wrong paths"""
-    path = list(filter(lambda x: os.path.isfile(x), map(lambda x: x.strip(), path.split(","))))
+    if os.path.isfile(path) and path.endswith(".txt"):
+        with open(path, "r") as fp:
+            paths = fp.readlines()
+    else:
+        paths = path.split(",")
+    path = list(filter(lambda x: os.path.isfile(x), map(lambda x: x.strip(), paths)))
     print("Path collected: {}".format(len(path)))
     return path
 
@@ -52,10 +57,11 @@ def repeat_content(workspace, video_path, audio_path, audio_repetitions, output_
 
     # Load the audio clip
     audio_segment = AudioSegment.from_file(new_audio_path)
-    print("Initial Audio duration(sec): {} to be repeated by {}".format(audio_segment.duration_seconds,
+    print("Initial Audio duration(sec): {} to be repeated by {}".format(round(audio_segment.duration_seconds, 0),
                                                                         audio_repetitions))
     # Repeat the audio clip
     if audio_repetitions > 0:
+        print("Repeat Audio {} Times".format(audio_repetitions), end="...")
         repeated_audio = audio_segment * (audio_repetitions + 1)
         repeated_audio.export(new_audio_path)
         # collect
@@ -63,6 +69,7 @@ def repeat_content(workspace, video_path, audio_path, audio_repetitions, output_
         gc.collect()
         # load audio as compatible audio clip
         final_audio_clip = AudioFileClip(new_audio_path)
+        print("Done")
     else:
         # load audio as compatible audio clip
         final_audio_clip = AudioFileClip(new_audio_path)
@@ -71,24 +78,41 @@ def repeat_content(workspace, video_path, audio_path, audio_repetitions, output_
     audio_duration_sec = final_audio_clip.duration
     video_duration_sec = video_clip.duration
     # video repeat
-    vid_repeat = int(audio_duration_sec // video_duration_sec)
-    print("Video Duration(sec): {}".format(video_duration_sec))
-    print("Audio Duration(sec): {}".format(audio_duration_sec))
-    print("Video Repeat: {}".format(vid_repeat))
+    vid_repeat = int(audio_duration_sec // video_duration_sec) + 1
+    print("Video Duration(sec): {}".format(round(video_duration_sec, 0)))
+    print("Audio Duration(sec): {}".format(round(audio_duration_sec, 0)))
+    print("Video Repeat Count: {}".format(vid_repeat))
     # Concatenate video clips
-    if vid_repeat in (0, 1):
+    if vid_repeat == (0, 1):
         repeated_vid = video_clip
     else:
+        print("Repeat Video {} Times".format(vid_repeat), end="...")
         repeated_vid = concatenate_videoclips([video_clip] * vid_repeat)
+        print("Done")
+    print("Repeated Video Duration(sec): {}".format(round(repeated_vid.duration, 0)))
+
+    print("Merging video and audio", end="...")
     # Set the audio of the video clip
     final_video = repeated_vid.set_audio(final_audio_clip)
-
+    print("Done")
+    fps = 15
+    approx_data_kb_per_sec = 45
+    approx_frame_writing_rate = 25  # frames/sec
+    print("Expected content size: {}GB".format(
+        round(((fps * approx_data_kb_per_sec * repeated_vid.duration) / 1024) / 1024), 2)
+    )
+    print("Expected content length: {}min".format(round(repeated_vid.duration / 60.), 2))
+    print("Expected time to create: {}min".format(
+        round((fps * repeated_vid.duration / approx_frame_writing_rate) / 60.), 2)
+    )
+    print("Exporting content...")
     # Export the final video
-    final_video.write_videofile(output_video, fps=video_clip.fps, codec='libx264')
+    final_video.write_videofile(output_video, fps=fps, codec='libx264')
 
-    print("Content created successfully: '{}'.".format(output_video))
     if os.path.isfile(new_audio_path):
+        print("Cleanup...")
         os.remove(new_audio_path)
+    print("Content created successfully: '{}'.".format(output_video))
 
 # # Example usage
 # video_path = 'input.mp4'

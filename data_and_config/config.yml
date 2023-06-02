@@ -1,4 +1,4 @@
-TOPIC: 'motivation'
+TOPIC: 'focus'
 LENGTH_IN_MINUTE: 60
 TYPE: 'video'
 RESOLUTION: '720p'
@@ -16,6 +16,6 @@ AUDIO:
   VOICE: 'female'
 
 STOCK:
-  AUDIO: './Stock Content/Audio/Gym-Rock/temp_repeated_passion-127011.mp3, ./Stock Content/Audio/Gym-Rock/action-workout-trap-fashion-99524.mp3'
-  VIDEO: './Stock Content/Video/gym/135162 (1440p).mp4, ./Stock Content/Video/gym/135156 (1440p).mp4, ./Stock Content/Video/gym/135156 (1440p).mp4'
-  REPEAT: 2
+  AUDIO: './data_and_config/cc_audios.txt'
+  VIDEO: './data_and_config/cc_videos.txt'
+  REPEAT: 4
