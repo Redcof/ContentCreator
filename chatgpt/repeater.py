@@ -1,6 +1,7 @@
 import gc
 import os.path
 import pathlib
+from datetime import datetime
 
 from moviepy.audio.AudioClip import concatenate_audioclips
 from moviepy.editor import VideoFileClip, AudioFileClip
@@ -105,9 +106,11 @@ def repeat_content(workspace, video_path, audio_path, audio_repetitions, output_
     print("Expected time to create: {}min".format(
         round((fps * repeated_vid.duration / approx_frame_writing_rate) / 60.), 2)
     )
+    print("Start Time:", datetime.now())
     print("Exporting content...")
     # Export the final video
     final_video.write_videofile(output_video, fps=fps, codec='libx264')
+    print("\nEnd Time:", datetime.now())
 
     if os.path.isfile(new_audio_path):
         print("Cleanup...")
