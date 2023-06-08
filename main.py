@@ -23,6 +23,7 @@ def content_from_quote():
 
 
 def content_form_stock():
+    cfg.TOPIC = cfg.TOPIC.replace(" ", "-")
     cc = ContentCreator("./output", cfg.TOPIC)
     cc.setInputAudio(cfg.STOCK.AUDIO, check=False)
     cc.setInputVideo(cfg.STOCK.VIDEO, check=False)
